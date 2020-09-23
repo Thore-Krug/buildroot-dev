@@ -13,23 +13,30 @@ GRAPHICSMAGICK_LICENSE_FILES = Copyright.txt
 GRAPHICSMAGICK_INSTALL_STAGING = YES
 GRAPHICSMAGICK_CONFIG_SCRIPTS = GraphicsMagick-config GraphicsMagickWand-config
 
-ifeq ($(BR2_INSTALL_LIBSTDCPP)$(BR2_USE_WCHAR),yy)
+# 0001-MNG-Fix-small-heap-overwrite-or-assertion.patch
+GRAPHICSMAGICK_IGNORE_CVES += CVE-2020-12672
+
+ifeq ($(BR2_INSTALL_LIBSTDCPP),y)
 GRAPHICSMAGICK_CONFIG_SCRIPTS += GraphicsMagick++-config
 endif
 
 GRAPHICSMAGICK_CONF_OPTS = \
-	--disable-openmp \
 	--without-dps \
 	--without-fpx \
 	--without-jbig \
 	--without-perl \
 	--without-trio \
-	--without-webp \
 	--without-wmf \
 	--without-x \
 	--with-gs-font-dir=/usr/share/fonts/gs
 
 GRAPHICSMAGICK_DEPENDENCIES = host-pkgconf
+
+ifeq ($(BR2_TOOLCHAIN_HAS_OPENMP),y)
+GRAPHICSMAGICK_CONF_OPTS += --enable-openmp
+else
+GRAPHICSMAGICK_CONF_OPTS += --disable-openmp
+endif
 
 ifeq ($(BR2_PACKAGE_FREETYPE),y)
 GRAPHICSMAGICK_CONF_OPTS += --with-ttf
@@ -80,6 +87,13 @@ GRAPHICSMAGICK_CONF_OPTS += --with-tiff
 GRAPHICSMAGICK_DEPENDENCIES += tiff
 else
 GRAPHICSMAGICK_CONF_OPTS += --without-tiff
+endif
+
+ifeq ($(BR2_PACKAGE_WEBP_MUX),y)
+GRAPHICSMAGICK_CONF_OPTS += --with-webp
+GRAPHICSMAGICK_DEPENDENCIES += webp
+else
+GRAPHICSMAGICK_CONF_OPTS += --without-webp
 endif
 
 ifeq ($(BR2_PACKAGE_XZ),y)

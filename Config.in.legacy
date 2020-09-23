@@ -146,6 +146,34 @@ endif
 
 comment "Legacy options removed in 2020.11"
 
+config BR2_PACKAGE_GQVIEW
+	bool "gqview package was removed"
+	select BR2_LEGACY
+	help
+	  This package has been removed as it is not maintained anymore
+	  (no release since 2006).
+
+config BR2_PACKAGE_WESTON_IMX
+	bool "weston-imx package was removed"
+	select BR2_LEGACY
+	help
+	  This package has been removed, use weston instead.
+
+config BR2_KERNEL_HEADERS_5_7
+	bool "kernel headers version 5.7.x are no longer supported"
+	select BR2_LEGACY
+	help
+	  Version 5.7.x of the Linux kernel headers are no longer
+	  maintained upstream and are now removed.
+
+config BR2_PACKAGE_TINYHTTPD
+	bool "tinyhttpd package removed"
+	select BR2_LEGACY
+	help
+	  The tinyhttpd package was removed as it is affected by
+	  CVE-2002-1819 and is not maintained anymore (no release since
+	  2001).
+
 config BR2_PACKAGE_XSERVER_XORG_SERVER_AIGLX
 	bool "X.org Enable AIGLX Extension"
 	select BR2_LEGACY
