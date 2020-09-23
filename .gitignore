@@ -10,7 +10,8 @@
 /*.patch
 /*.diff
 *.orig
-*.rej.DocumentRevisions-V100
+*.rej
+.DocumentRevisions-V100
 .fseventsd
 .Spotlight-V100
 .TemporaryItems
